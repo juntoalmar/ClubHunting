@@ -1,0 +1,58 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="se.kth.mobdev.clubhunting.MapsActivity" >
+
+<fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:scrollbars="vertical"
+    class="com.google.android.gms.maps.SupportMapFragment"/>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="200dp"
+        android:id="@+id/bRadar"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+
+        android:clickable="true"
+        android:padding="16dp"
+        android:orientation="vertical" >
+
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="30dp"
+            android:maxWidth="30dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_radar" />
+
+        <TextView
+            android:id="@+id/tvSearchCaption"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:paddingRight="30dp"
+            android:gravity="center"
+            android:text="Radar" />
+    </LinearLayout>
+
+
+</FrameLayout>

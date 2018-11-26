@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ClubHunting</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_radar">RadarActivity</string>
+</resources>
