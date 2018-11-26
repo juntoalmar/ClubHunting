@@ -5,15 +5,27 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="se.kth.mobdev.clubhunting.MapsActivity" >
 
-<fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/map"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:scrollbars="vertical"
-    class="com.google.android.gms.maps.SupportMapFragment"/>
 
 
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        map:cameraTargetLat="59.3257"
+        map:cameraTargetLng="18.065"
+
+        map:cameraZoom="13"
+        map:mapType="normal"
+        map:uiCompass="true"
+        map:uiRotateGestures="true"
+        map:uiScrollGestures="true"
+        map:uiTiltGestures="true"
+        map:uiZoomControls="false"
+        map:uiZoomGestures="true"/>
 
 
 
