@@ -71,6 +71,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if(closest!=null)
             if(!closest.mp.isPlaying())
             {
+
+                //TODO comprobacion de distancia
                 closest.mp.start();
 
             }
@@ -87,6 +89,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         }
         //Move to radar
         Intent i = new Intent(this, RadarActivity.class);
+            //Intent i = new Intent(this, compass.class);
         startActivity(i);
 
 
