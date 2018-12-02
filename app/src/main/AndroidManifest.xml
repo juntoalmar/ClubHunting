@@ -41,6 +41,10 @@
         <activity
             android:name=".RadarActivity"
             android:label="@string/title_activity_radar"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DetailsActivity"
+            android:label="@string/title_activity_details"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

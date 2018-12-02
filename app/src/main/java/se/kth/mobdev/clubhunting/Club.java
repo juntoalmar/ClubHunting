@@ -1,5 +1,6 @@
 package se.kth.mobdev.clubhunting;
 
+import android.media.MediaPlayer;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -15,10 +16,14 @@ public class Club {
     public LatLng location;
     public String url;
     public String music;
+    public String music_style;
     public float rating;
     public String description;
     public ImageView image;
+
     Marker marker;
+
+    public MediaPlayer mp;
 
 }
 

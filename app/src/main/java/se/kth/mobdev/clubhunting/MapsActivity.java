@@ -1,21 +1,16 @@
 package se.kth.mobdev.clubhunting;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
     private GoogleMap mMap;
     private LatLng[] bars;
-    private Club[] clubs;
+    public static Club[] clubs;
     private Club closest;
     private MediaPlayer mp;
 
@@ -60,15 +55,36 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             }
         });
 
-// some more code
-        //Media player
-        mp = MediaPlayer.create(this, R.raw.song);
+
+
+
+
 
     }
 
 
-    public void radarClick(View v) {
+    @Override
+    protected void onResume() {
 
+        super.onResume();
+
+        if(closest!=null)
+            if(!closest.mp.isPlaying())
+            {
+                closest.mp.start();
+
+            }
+
+    }
+
+        public void radarClick(View v) {
+
+
+
+        if(closest!=null) {
+            if (closest.mp.isPlaying())
+                closest.mp.pause();
+        }
         //Move to radar
         Intent i = new Intent(this, RadarActivity.class);
         startActivity(i);
@@ -122,8 +138,63 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //Add marker
             //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
             clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
-            clubs[i].marker.setTag(clubs[i].url);
+            //clubs[i].marker.setTag(clubs[i].url);
+            clubs[i].marker.setTag(i);
 
+
+            //Media player
+
+            switch (i)
+            {
+                case 0:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+                    break;
+
+                case 1:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
+                    break;
+
+                case 2:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song02);
+                    break;
+
+                case 3:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song03);
+                    break;
+
+                case 4:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song04);
+                    break;
+
+                case 5:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song05);
+                    break;
+
+                case 6:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song06);
+                    break;
+
+                case 7:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song07);
+                    break;
+
+                case 8:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song08);
+                    break;
+
+                case 9:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song09);
+                    break;
+
+                case 10:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song10);
+                    break;
+
+                default:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
+                    break;
+            }
+            //clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
         }
 
 
@@ -170,11 +241,19 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
 
         //Open a bar TEST
-        String url = (String) marker.getTag();
-        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,  Uri.parse(url));
-        startActivity(intent);
+//        String url = (String) marker.getTag();
+//        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,  Uri.parse(url));
+//        startActivity(intent);
 
 
+
+
+        //Open a bar details
+        Intent i = new Intent(this, DetailsActivity.class);
+
+        int clubSelected = (int) marker.getTag();
+        i.putExtra("club_selected", clubSelected);
+        startActivity(i);
 
 
         // Return false to indicate that we have not consumed the event and that we wish
@@ -203,10 +282,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         */
     }
 
-    @Override
-    public void onCameraMove() {
-        //Toast.makeText(this, "The camera is moving.", Toast.LENGTH_SHORT).show();
 
+    public double locationDistance(LatLng loc1, LatLng loc2)
+    {
+        return Math.sqrt( Math.pow(loc1.latitude-loc2.latitude, 2) + Math.pow(loc1.longitude-loc2.longitude, 2) );
+    }
+
+    public Club findClosestClub()
+    {
         //Get camera position
         CameraPosition camera = mMap.getCameraPosition();
         LatLng location = camera.target;
@@ -214,16 +297,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         double minDistance = 99999999999.9;
         double distance;
 
-        Club previous = closest;
+        int i;
 
-
-
-        //Find closest club
-
-        for(int i=0; i<10; i++)
+       //Find closest club
+        for(i=0; i<10; i++)
         {
-            distance = (Math.sqrt( Math.pow(location.latitude-clubs[i].location.latitude, 2) + Math.pow(location.longitude-clubs[i].location.longitude, 2) ));
+            //distance = (Math.sqrt( Math.pow(location.latitude-clubs[i].location.latitude, 2) + Math.pow(location.longitude-clubs[i].location.longitude, 2) ));
 
+            distance = locationDistance(location,clubs[i].location );
             //Closer club
             if(distance<minDistance)
             {
@@ -232,31 +313,82 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             }
         }
 
-        //Closest club in blue
-        closest.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-        closest.marker.showInfoWindow();
+        return closest;
+    }
+
+    @Override
+    public void onCameraMove() {
+        //Toast.makeText(this, "The camera is moving.", Toast.LENGTH_SHORT).show();
+
+        //Get camera position
+        CameraPosition camera = mMap.getCameraPosition();
+        LatLng location = camera.target;
+
+//        double minDistance = 99999999999.9;
+//        double distance;
+
+        Club previous = closest;
+
+        closest = findClosestClub();
+
+//        //Find closest club
+//
+//        for(int i=0; i<10; i++)
+//        {
+//            distance = (Math.sqrt( Math.pow(location.latitude-clubs[i].location.latitude, 2) + Math.pow(location.longitude-clubs[i].location.longitude, 2) ));
+//
+//            //Closer club
+//            if(distance<minDistance)
+//            {
+//                minDistance = distance;
+//                closest = clubs[i];
+//            }
+//        }
+
+        //Change
+        if(closest != previous)
+        {
+            //Closest club in blue
+            closest.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            closest.marker.showInfoWindow();
+
+            //Unselect previous
+            if(previous!=null) {
+                previous.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                //Unset the music
+                previous.mp.pause();
+            }
+
+            closest.mp.start();
+        }
+
+
 
         //Change of club
-        if((previous!=null) && (previous!=closest))
-            previous.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//        if((previous!=null) && (previous!=closest))
 
 
+        double distance = locationDistance(closest.location, location);
 
 
-        if(minDistance<MIN_DISTANCE_PLAY_MUSIC) {
+        if(distance<MIN_DISTANCE_PLAY_MUSIC) {
 
 
-            float log1=(float)(Math.log(50-minDistance)/Math.log(50))/10;
-            mp.setVolume(1-log1, 1-log1);
+            double volume = 1 - (distance/MIN_DISTANCE_PLAY_MUSIC);
 
-            Toast.makeText(this, "Rock and roll!!! "+(1-log1), Toast.LENGTH_SHORT).show();
+//            float log1=(float)(Math.log(50-minDistance)/Math.log(50))/10;
+//            mp.setVolume(1-log1, 1-log1);
+            closest.mp.setVolume((float)volume, (float)volume);
+
+
+            Toast.makeText(this, "Rock and roll!!! "+volume, Toast.LENGTH_SHORT).show();
             //mp.setVolume((float)minDistance, (float)minDistance);
 
-            if(!mp.isPlaying())
-                mp.start();
+            if(!closest.mp.isPlaying())
+                closest.mp.start();
         }
         else
-            mp.pause();
+            closest.mp.pause();
 
     }
 
