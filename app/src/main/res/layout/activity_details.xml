@@ -66,16 +66,6 @@
     </LinearLayout>
 
 
-    public String name;
-    public LatLng location;
-    public String url;
-    public String music;
-    public String music_style;
-    public float rating;
-    public String description;
-    public ImageView image;
-
-    Marker marker;
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

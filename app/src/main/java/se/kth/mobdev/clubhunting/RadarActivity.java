@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
     private TextView tvCompass;
     private RelativeLayout layoutRadar;
-
+    private LinearLayout layoutDetails;
 
     ////
     private SensorManager mSensorManager;
@@ -50,11 +51,14 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radar);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Clubhunter");
         setSupportActionBar(toolbar);
+
 
 
         tvCompass = (TextView) findViewById(R.id.tvCompass);
         layoutRadar = (RelativeLayout) findViewById(R.id.layoutRadar);
+        layoutDetails = (LinearLayout) findViewById(R.id.layoutDetails);
 
         //ORIGINAL
 //        //Sensors
@@ -153,7 +157,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             layoutRadar.startAnimation(ra);
             mCurrentDegree = -azimuthInDegress;
 
-            tvCompass.setText("Compass= "+azimuthInRadians );
+           //TODO for prototype
+            tvCompass.setText("");
+            // tvCompass.setText("Compass= "+azimuthInRadians );
 
 
             //Sound
@@ -161,6 +167,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
             if(distance<1)
             {
+
+                //layoutRadar.
+
+
                 float volume = 1-distance;
 
                 if(!clubs[1].mp.isPlaying())

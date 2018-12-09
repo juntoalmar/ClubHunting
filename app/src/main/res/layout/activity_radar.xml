@@ -36,10 +36,41 @@
         app:fabSize="mini" />
 
 
+    <TextView
+        android:id="@+id/tvCompass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Compass=" />
+
+    <LinearLayout
+        android:id="@+id/layoutDetails"
+        android:layout_width="112dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Disco inferno" />
+
+
+        <Button
+            android:id="@+id/btnGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GO!" />
+
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/layoutRadar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:orientation="vertical">
 
         <ImageView
@@ -53,19 +84,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="170dp"
-            android:layout_marginTop="155dp"
+            android:layout_marginTop="150dp"
             app:srcCompat="@drawable/bubble_red" />
 
 
-
-
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tvCompass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="Compass=" />
 
 </android.support.design.widget.CoordinatorLayout>
