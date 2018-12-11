@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     //private SensorManager mSensorManager;
     //private Sensor mCompass;
 
+    private Button btnGo;
     private TextView tvCompass;
     private RelativeLayout layoutRadar;
     private LinearLayout layoutDetails;
@@ -55,10 +57,19 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         setSupportActionBar(toolbar);
 
 
-
+        btnGo = (Button) findViewById(R.id.btnGo);
         tvCompass = (TextView) findViewById(R.id.tvCompass);
         layoutRadar = (RelativeLayout) findViewById(R.id.layoutRadar);
         layoutDetails = (LinearLayout) findViewById(R.id.layoutDetails);
+
+
+        btnGo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goClick(v);
+            }
+        });
+
 
         //ORIGINAL
 //        //Sensors
@@ -165,6 +176,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             //Sound
             float distance = Math.abs(azimuthInRadians);
 
+
+            //TODO find closest club
+            //TODO calculate sound volume based on the club and orientation
             if(distance<1)
             {
 
@@ -213,9 +227,30 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         //ORIGINAL
         //mSensorManager.unregisterListener(this);
 
+        //TODO silent the proper object
+        if(clubs[1].mp.isPlaying())
+            clubs[1].mp.pause();
+
         //COMPASS
         mSensorManager.unregisterListener(this, mAccelerometer);
         mSensorManager.unregisterListener(this, mMagnetometer);
+    }
+
+
+    public void goClick(View v) {
+
+
+
+        //Move to detail
+        Intent i = new Intent(this, DetailsActivity.class);
+        //Intent i = new Intent(this, compass.class);
+
+        //TODO: move to the selected club
+        int clubSelected = 1;
+        i.putExtra("club_selected", clubSelected);
+        startActivity(i);
+
+
     }
 
 }
