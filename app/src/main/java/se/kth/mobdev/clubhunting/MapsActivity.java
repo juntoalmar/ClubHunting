@@ -120,89 +120,9 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         //TODO: get clubs from JSON
 
-
-        clubs = new Club[10];
-
-        for(int i=0; i< clubs.length; i++)
-        {
-            Random r = new Random();
-
-            clubs[i] = new Club();
-
-            clubs[i].name = "Club "+i;
-            clubs[i].description = "Description "+i;
-
-            //Position based on Stockholm + some random offset
-            clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
-            //clubs[i].image =
-
-            clubs[i].music = "Music "+i;
-            clubs[i].rating = r.nextInt(5);
-            clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+        getClubDataStatic();
 
 
-
-            //Add marker
-            //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
-            clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
-            //clubs[i].marker.setTag(clubs[i].url);
-            clubs[i].marker.setTag(i);
-
-
-            //Media player
-
-            switch (i)
-            {
-                case 0:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
-                    break;
-
-                case 1:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
-                    break;
-
-                case 2:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song02);
-                    break;
-
-                case 3:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song03);
-                    break;
-
-                case 4:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song04);
-                    break;
-
-                case 5:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song05);
-                    break;
-
-                case 6:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song06);
-                    break;
-
-                case 7:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song07);
-                    break;
-
-                case 8:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song08);
-                    break;
-
-                case 9:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song09);
-                    break;
-
-                case 10:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song10);
-                    break;
-
-                default:
-                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
-                    break;
-            }
-            //clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
-        }
 
 
         /*
@@ -307,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         int i;
 
        //Find closest club
-        for(i=0; i<10; i++)
+        for(i=0; i<clubs.length; i++)
         {
             //distance = (Math.sqrt( Math.pow(location.latitude-clubs[i].location.latitude, 2) + Math.pow(location.longitude-clubs[i].location.longitude, 2) ));
 
@@ -409,5 +329,367 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //Toast.makeText(this, "The camera has stopped moving.", Toast.LENGTH_SHORT).show();
     }
 
+    public void getClubData()
+    {
+        clubs = new Club[10];
 
+        for(int i=0; i< clubs.length; i++)
+        {
+            Random r = new Random();
+
+            clubs[i] = new Club();
+
+            clubs[i].name = "Club "+i;
+            clubs[i].description = "Description "+i;
+
+            //Position based on Stockholm + some random offset
+            clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+            //clubs[i].image =
+
+            clubs[i].music = "Music "+i;
+            clubs[i].rating = r.nextInt(5);
+            clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+
+            //Add marker
+            //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+            clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+            //clubs[i].marker.setTag(clubs[i].url);
+            clubs[i].marker.setTag(i);
+
+
+            //Media player
+
+            switch (i)
+            {
+                case 0:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+                    break;
+
+                case 1:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
+                    break;
+
+                case 2:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song02);
+                    break;
+
+                case 3:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song03);
+                    break;
+
+                case 4:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song04);
+                    break;
+
+                case 5:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song05);
+                    break;
+
+                case 6:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song06);
+                    break;
+
+                case 7:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song07);
+                    break;
+
+                case 8:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song08);
+                    break;
+
+                case 9:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song09);
+                    break;
+
+                case 10:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song10);
+                    break;
+
+                default:
+                    clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
+                    break;
+            }
+            //clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
+        }
+    }
+
+
+
+    public void getClubDataStatic()
+    {
+        int nbClubs = 10;
+
+        clubs = new Club[nbClubs];
+        Random r = new Random();
+
+
+        int i;
+
+
+        //0
+        i=0;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+        //1
+        i=1;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //2
+        i=2;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //3
+        i=3;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //4
+        i=4;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //5
+        i=5;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //6
+        i=6;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //7
+        i=7;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //8
+        i=8;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+        //9
+        i=9;
+
+        clubs[i] = new Club();
+
+        clubs[i].name = "Club "+i;
+        clubs[i].description = "Description "+i;
+
+        //Position based on Stockholm + some random offset
+        clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
+        //clubs[i].image =
+
+        clubs[i].music = "Music "+i;
+        clubs[i].rating = r.nextInt(5);
+        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+
+
+        //Add marker
+        //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+        //clubs[i].marker.setTag(clubs[i].url);
+        clubs[i].marker.setTag(i);
+
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+
+
+
+
+
+
+    }
 }
