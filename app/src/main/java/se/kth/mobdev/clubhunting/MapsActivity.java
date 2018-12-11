@@ -26,7 +26,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         GoogleMap.OnCameraMoveCanceledListener,
         GoogleMap.OnCameraIdleListener, OnMapReadyCallback {
 
-    public static double MIN_DISTANCE_PLAY_MUSIC = 0.01;
+    public static double MIN_DISTANCE_PLAY_MUSIC = 0.02;
 
     private GoogleMap mMap;
     private LatLng[] bars;
