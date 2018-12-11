@@ -59,13 +59,13 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_radar);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Clubhunter");
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setTitle("Clubhunter");
+//        setSupportActionBar(toolbar);
 
 
         btnGo = (Button) findViewById(R.id.btnGo);
-        tvCompass = (TextView) findViewById(R.id.tvCompass);
+       // tvCompass = (TextView) findViewById(R.id.tvCompass);
         layoutRadar = (RelativeLayout) findViewById(R.id.layoutRadar);
         layoutDetails = (LinearLayout) findViewById(R.id.layoutDetails);
 
@@ -229,7 +229,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mCurrentDegree = -azimuthInDegress;
 
            //TODO for prototype
-            tvCompass.setText("");
+           // tvCompass.setText("");
             // tvCompass.setText("Compass= "+azimuthInRadians );
 
 

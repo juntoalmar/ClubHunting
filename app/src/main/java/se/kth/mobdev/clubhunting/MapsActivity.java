@@ -408,4 +408,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void onCameraIdle() {
         //Toast.makeText(this, "The camera has stopped moving.", Toast.LENGTH_SHORT).show();
     }
+
+
 }

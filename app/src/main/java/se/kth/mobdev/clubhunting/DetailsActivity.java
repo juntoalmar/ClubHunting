@@ -7,6 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import 	android.content.Intent;
 
@@ -19,8 +21,19 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setTitle("       ");
+//        setSupportActionBar(toolbar);
+
+        ImageButton imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
+
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imgbtnBackClick(v);
+            }
+        });
+
 
 
         Bundle bundle = getIntent().getExtras();
@@ -45,29 +58,29 @@ public class DetailsActivity extends AppCompatActivity {
         if(c!=null)
         {
             TextView tvName = (TextView) findViewById(R.id.tvName);
-            tvName.setText(c.name);
+         //TODO   tvName.setText(c.name);
 
             TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
-            tvLocation.setText(""+c.location.latitude+", "+c.location.longitude);
+         //TODO   tvLocation.setText(""+c.location.latitude+", "+c.location.longitude);
 
-            TextView tvMusic = (TextView) findViewById(R.id.tvMusic);
-            tvMusic.setText(c.music);
+//            TextView tvMusic = (TextView) findViewById(R.id.tvMusic);
+//            tvMusic.setText(c.music);
 
-            TextView tvMusicStyle = (TextView) findViewById(R.id.tvMusicStyle);
-            tvMusicStyle.setText(c.music_style);
+//            TextView tvMusicStyle = (TextView) findViewById(R.id.tvMusicStyle);
+//            tvMusicStyle.setText(c.music_style);
 
-            TextView tvRating = (TextView) findViewById(R.id.tvRating);
-            tvRating.setText(""+c.rating);
+            //TextView tvRating = (TextView) findViewById(R.id.tvRating);
+            //tvRating.setText(""+c.rating);
 
             TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
-            tvDescription.setText(c.description);
+       //TODO     tvDescription.setText(c.description);
 
 
         }
 
 
         //Floating button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.btnNavigate);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,4 +97,8 @@ public class DetailsActivity extends AppCompatActivity {
         //TODO: load club info in the form
     }
 
+
+    public void imgbtnBackClick(View v) {
+    finish();
+    }
 }

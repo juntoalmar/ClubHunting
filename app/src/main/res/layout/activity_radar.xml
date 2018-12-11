@@ -11,43 +11,52 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_radar" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:layout_margin="@dimen/fab_margin"
-
-        android:layout_marginTop="10dp"
-
-        android:src="@drawable/icon_map"
-        app:backgroundTint="@android:color/background_light"
-        app:fabSize="mini" />
+    <LinearLayout
+        android:layout_marginStart="290dp"
+        android:layout_marginTop="250dp"
+        android:id="@+id/bRadar"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:padding="16dp"
+        android:orientation="vertical" >
 
 
-    <TextView
-        android:id="@+id/tvCompass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:text="Compass=" />
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/icon_map"
+            android:layout_gravity="center"
+            app:backgroundTint="@color/common_google_signin_btn_text_dark_default" />
+
+
+        <TextView
+            android:id="@+id/tvSearchCaption"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:text="Map" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutDetails"
-        android:layout_width="112dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="80dp"
+        android:gravity="center"
         android:layout_marginTop="100dp"
         android:orientation="vertical">
 
@@ -55,14 +64,28 @@
             android:id="@+id/tvName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Disco inferno" />
+            android:gravity="center"
+            android:text="Södra Teatern"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/tvKM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0.8 KM"
+            android:textSize="20sp"/>
 
 
         <Button
-            android:id="@+id/btnGo"
-            android:layout_width="wrap_content"
+            android:id ="@+id/btnGo"
+            android:layout_marginTop="20dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="GO!" />
+            android:text="Let's go!"
+            android:textSize="15sp"
+            android:textColor="#fff"
+            android:background="@drawable/button_bg_rounded_corners"
+            android:padding="15dp"/>
 
     </LinearLayout>
 
@@ -78,7 +101,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/radar" />
-
 
 
 
