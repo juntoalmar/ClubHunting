@@ -384,7 +384,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             closest.mp.setVolume((float)volume, (float)volume);
 
 
-            Toast.makeText(this, "Rock and roll!!! "+volume, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "Rock and roll!!! "+volume, Toast.LENGTH_SHORT).show();
             //mp.setVolume((float)minDistance, (float)minDistance);
 
             if(!closest.mp.isPlaying())
