@@ -34,6 +34,11 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     private Club closest;
     private MediaPlayer mp;
 
+    //Stockholm location
+    public static Double stkLat = 59.3257;
+    public static Double stkLong = 18.065;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,8 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         public void radarClick(View v) {
 
 
+        //TODO: add 10 closest clubs and send to radar
+
 
         if(closest!=null) {
             if (closest.mp.isPlaying())
@@ -110,9 +117,6 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //Stockholm location
-        Double stkLat = 59.3257;
-        Double stkLong = 18.065;
 
         //TODO: get clubs from JSON
 

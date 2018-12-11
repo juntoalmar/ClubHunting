@@ -11,10 +11,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Scene;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import static se.kth.mobdev.clubhunting.MapsActivity.clubs;
+import static se.kth.mobdev.clubhunting.MapsActivity.stkLat;
+import static se.kth.mobdev.clubhunting.MapsActivity.stkLong;
 
 public class RadarActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -47,6 +51,9 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private float[] mR = new float[9];
     private float[] mOrientation = new float[3];
     private float mCurrentDegree = 0f;
+
+    public static int RADAR_IMAGE_MIDDLE = 360;
+    public static int BUBBLE_SIZE = 50;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +101,59 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
+
+        //Add clubs
+        for(int i=0; i<clubs.length; i++)
+        {
+            //Calculate position in the radar
+            double deltaX = (clubs[i].location.latitude-stkLat)*10000;
+            double deltaY = (clubs[i].location.longitude-stkLong)*10000;
+
+            double distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+            double minDistance = 120;
+
+            if(distance<minDistance)
+                distance=minDistance;
+
+//            deltaX = 0;
+//            deltaY = 0;
+
+
+            //180dp middle of radar imageview
+            //25dp
+            int posx = RADAR_IMAGE_MIDDLE+ (int)deltaX -(BUBBLE_SIZE/2);
+            int posy = RADAR_IMAGE_MIDDLE+ (int)deltaY -(BUBBLE_SIZE/2);
+
+
+            double maxSize = 200;
+            double minSize = 30;
+
+            double maxRange = 300;
+            int size = (int) (maxSize - distance *(maxSize/maxRange));
+
+            if(size<minSize)
+                size = (int) minSize;
+            else
+                if(size>maxSize)
+                    size = (int) maxSize;
+            //Create image
+            ImageView bubble = new ImageView(this);
+            bubble.setImageResource(R.drawable.bubble_red);
+
+            //Locate image in radar
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(posx, posy, 0, 0);
+            lp.width = size;
+            lp.height = size;
+            bubble.setLayoutParams(lp);
+
+
+
+
+            //Add to radar
+            layoutRadar.addView(bubble);
+        }
 
 
         //Floating button

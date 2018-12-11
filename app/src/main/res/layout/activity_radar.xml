@@ -68,9 +68,9 @@
 
     <RelativeLayout
         android:id="@+id/layoutRadar"
-        android:layout_width="360dp"
-        android:layout_height="360dp"
-        android:layout_marginTop="350dp"
+        android:layout_width="720px"
+        android:layout_height="720px"
+        android:layout_marginTop="750px"
         android:orientation="vertical">
 
         <ImageView
@@ -79,13 +79,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/radar" />
 
-        <ImageView
-            android:id="@+id/bubble1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="155dp"
-            android:layout_marginTop="40dp"
-            app:srcCompat="@drawable/bubble_red" />
+
 
 
     </RelativeLayout>
