@@ -2,6 +2,8 @@ package se.kth.mobdev.clubhunting;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,15 +18,21 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 
 
 
 import java.util.Random;
 
-public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraMoveStartedListener,
+public class MapsActivity extends FragmentActivity implements
+        GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener,
-        GoogleMap.OnCameraIdleListener, OnMapReadyCallback {
+        GoogleMap.OnCameraIdleListener,
+        OnMapReadyCallback,
+        OnInfoWindowClickListener
+{
 
     public static double MIN_DISTANCE_PLAY_MUSIC = 0.02;
 
@@ -51,17 +59,27 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mapFragment.getMapAsync(this);
 
 
-        LinearLayout radar = (LinearLayout) findViewById(R.id.bRadar);
+//        LinearLayout radar = (LinearLayout) findViewById(R.id.bRadar);
+//
+//        radar.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                radarClick(v);
+//            }
+//        });
 
-        radar.setOnClickListener(new View.OnClickListener() {
+
+
+        //Floating button
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabRadar);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                radarClick(v);
+            public void onClick(View view) {
+
+                radarClick(view);
+
             }
         });
-
-
-
 
 
 
@@ -161,6 +179,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         mMap.setOnCameraMoveStartedListener(this);
         mMap.setOnCameraMoveListener(this);
         mMap.setOnCameraMoveCanceledListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
     }
 
@@ -276,8 +295,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         if(closest != previous)
         {
             //Closest club in blue
-            closest.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+           // closest.marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            closest.marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.dancing));
+
+
+            closest.marker.setSnippet("Rating: "+ closest.rating);
             closest.marker.showInfoWindow();
+
 
             //Unselect previous
             if(previous!=null) {
@@ -320,6 +344,21 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
     }
 
     @Override
+    public void onInfoWindowClick(Marker marker) {
+
+
+        //Open a bar details
+        Intent i = new Intent(this, DetailsActivity.class);
+
+        int clubSelected = (int) marker.getTag();
+        i.putExtra("club_selected", clubSelected);
+        startActivity(i);
+
+
+
+    }
+
+    @Override
     public void onCameraMoveCanceled() {
         //Toast.makeText(this, "Camera movement canceled.", Toast.LENGTH_SHORT).show();
     }
@@ -355,8 +394,13 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
             //Add marker
             //Marker newMark = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
             clubs[i].marker = mMap.addMarker(new MarkerOptions().position(clubs[i].location).title(clubs[i].name));
+
             //clubs[i].marker.setTag(clubs[i].url);
+
             clubs[i].marker.setTag(i);
+
+
+
 
 
             //Media player
@@ -433,14 +477,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Disco inferno";
+        clubs[i].description = "Add description here";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "R&B";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -458,16 +502,16 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Söder Teatern";
+        clubs[i].description = "Ornate 19th-century theater featuring touring rock, indie & jazz bands, plus live DJ club nights.";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "Jazz ";
         clubs[i].rating = r.nextInt(5);
-        clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
+        clubs[i].url = new String ("https://goo.gl/maps/kWMvRBfPMz12");
 
 
         //Add marker
@@ -476,7 +520,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song01);
 
 
         //2
@@ -484,14 +528,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Berns ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "R&B, Electronic dance music ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -502,7 +546,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song02);
 
 
         //3
@@ -510,14 +554,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Melt Bar ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "1920's jazz ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -528,7 +572,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song03);
 
 
         //4
@@ -536,14 +580,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Sturecompagniet ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "House music ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -554,7 +598,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song04);
 
 
         //5
@@ -562,14 +606,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Marquise Club ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "Electronic club music ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -580,7 +624,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song05);
 
 
         //6
@@ -588,14 +632,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Kasai ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "R&B, dining music ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -606,7 +650,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song06);
 
 
         //7
@@ -614,14 +658,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Under Bron ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "Electronic dance music, techno ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -632,7 +676,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song07);
 
 
         //8
@@ -640,14 +684,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
-        clubs[i].description = "Description "+i;
+        clubs[i].name = "Göta Källaren ";
+        clubs[i].description = "Description ";
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "Electronic dance music ";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -658,7 +702,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song08);
 
 
         //9
@@ -666,14 +710,14 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
 
         clubs[i] = new Club();
 
-        clubs[i].name = "Club "+i;
+        clubs[i].name = "Café Opera";
         clubs[i].description = "Description "+i;
 
         //Position based on Stockholm + some random offset
         clubs[i].location = new LatLng(stkLat+((r.nextInt(50)-25)/1000.0),stkLong+((r.nextInt(50)-25)/1000.0));
         //clubs[i].image =
 
-        clubs[i].music = "Music "+i;
+        clubs[i].music = "House music";
         clubs[i].rating = r.nextInt(5);
         clubs[i].url = new String ("https://goo.gl/maps/nsXPnMbUkcS2");
 
@@ -684,7 +728,7 @@ public class MapsActivity extends FragmentActivity implements GoogleMap.OnMarker
         //clubs[i].marker.setTag(clubs[i].url);
         clubs[i].marker.setTag(i);
 
-        clubs[i].mp = MediaPlayer.create(this, R.raw.song00);
+        clubs[i].mp = MediaPlayer.create(this, R.raw.song09);
 
 
 

@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import 	android.content.Intent;
 
@@ -26,6 +28,8 @@ public class DetailsActivity extends AppCompatActivity {
 //        setSupportActionBar(toolbar);
 
         ImageButton imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
+
+
 
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,23 +61,33 @@ public class DetailsActivity extends AppCompatActivity {
 
         if(c!=null)
         {
+            if(c.image!=null)
+            {
+                ImageView image = (ImageView) findViewById(R.id.clubImage);
+                image = c.image;
+            }
+
+            RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+            ratingBar.setRating(c.rating);
+            ratingBar.setIsIndicator(true);
+
             TextView tvName = (TextView) findViewById(R.id.tvName);
-         //TODO   tvName.setText(c.name);
+            tvName.setText(c.name);
 
             TextView tvLocation = (TextView) findViewById(R.id.tvLocation);
-         //TODO   tvLocation.setText(""+c.location.latitude+", "+c.location.longitude);
+            tvLocation.setText("Lat:"+String.format("%.2f", c.location.latitude)+", Long:"+String.format("%.2f", c.location.longitude));
 
 //            TextView tvMusic = (TextView) findViewById(R.id.tvMusic);
 //            tvMusic.setText(c.music);
-
+//
 //            TextView tvMusicStyle = (TextView) findViewById(R.id.tvMusicStyle);
 //            tvMusicStyle.setText(c.music_style);
-
-            //TextView tvRating = (TextView) findViewById(R.id.tvRating);
-            //tvRating.setText(""+c.rating);
+//
+//            TextView tvRating = (TextView) findViewById(R.id.tvRating);
+//            tvRating.setText(""+c.rating);
 
             TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
-       //TODO     tvDescription.setText(c.description);
+            tvDescription.setText(c.description);
 
 
         }

@@ -30,30 +30,30 @@ tools:context="se.kth.mobdev.clubhunting.MapsActivity" >
 
 
 
-    <LinearLayout
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="200dp"
-        android:id="@+id/bRadar"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
 
+
+    <LinearLayout
+        android:layout_marginStart="290dp"
+        android:layout_marginTop="250dp"
+        android:id="@+id/radarlayout"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:clickable="true"
         android:padding="16dp"
         android:orientation="vertical" >
 
 
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabRadar"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:src="@drawable/icon_radar"
+            android:layout_gravity="center"
+            app:fabSize="mini"
+            app:backgroundTint="@color/common_google_signin_btn_text_dark_default" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:adjustViewBounds="true"
-            android:maxHeight="30dp"
-            android:maxWidth="30dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/icon_radar" />
 
         <TextView
             android:id="@+id/tvSearchCaption"
@@ -61,9 +61,8 @@ tools:context="se.kth.mobdev.clubhunting.MapsActivity" >
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="12sp"
-            android:paddingRight="30dp"
             android:gravity="center"
-            android:text="Radar" />
+            android:text="Map" />
     </LinearLayout>
 
     <ImageView

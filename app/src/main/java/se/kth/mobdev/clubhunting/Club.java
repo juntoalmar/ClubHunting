@@ -14,6 +14,11 @@ public class Club {
 
     public String name;
     public LatLng location;
+    public String address;
+    public int xRadar;      //Position in X axis in the radar map
+    public int yRadar;      //Position in Y axis in the radar map
+    public double radarAzimut;
+    public double distance;
     public String url;
     public String music;
     public String music_style;

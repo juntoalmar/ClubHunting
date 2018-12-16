@@ -11,9 +11,14 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
-
     </android.support.design.widget.AppBarLayout>
+
+
+    <TextView
+        android:id="@+id/tvCompass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
     <include layout="@layout/content_radar" />
 
@@ -37,6 +42,7 @@
             android:clickable="true"
             android:src="@drawable/icon_map"
             android:layout_gravity="center"
+            app:fabSize="mini"
             app:backgroundTint="@color/common_google_signin_btn_text_dark_default" />
 
 
@@ -53,15 +59,15 @@
 
     <LinearLayout
         android:id="@+id/layoutDetails"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="150dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="50dp"
         android:gravity="center"
         android:layout_marginTop="100dp"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/tvRadarName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

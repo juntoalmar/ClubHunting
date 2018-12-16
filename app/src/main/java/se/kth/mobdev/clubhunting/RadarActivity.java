@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Scene;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.List;
+import java.util.Random;
 
 import static se.kth.mobdev.clubhunting.MapsActivity.clubs;
 import static se.kth.mobdev.clubhunting.MapsActivity.stkLat;
@@ -39,6 +41,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
     private TextView tvCompass;
     private RelativeLayout layoutRadar;
     private LinearLayout layoutDetails;
+
+    private int facingClub =0;
 
     ////
     private SensorManager mSensorManager;
@@ -65,7 +69,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
 
         btnGo = (Button) findViewById(R.id.btnGo);
-       // tvCompass = (TextView) findViewById(R.id.tvCompass);
+        tvCompass = (TextView) findViewById(R.id.tvCompass);
         layoutRadar = (RelativeLayout) findViewById(R.id.layoutRadar);
         layoutDetails = (LinearLayout) findViewById(R.id.layoutDetails);
 
@@ -103,22 +107,33 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 
 
         //Add clubs
-        for(int i=0; i<clubs.length; i++)
+     for(int i=0; i<clubs.length; i++)
+
         {
+            //TODO
+        //int i=0;
+        //
+
             //Calculate position in the radar
             double deltaX = (clubs[i].location.latitude-stkLat)*10000;
-            double deltaY = (clubs[i].location.longitude-stkLong)*10000;
+            double deltaY = (stkLong-clubs[i].location.longitude)*10000;
 
-            double distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 
-            double minDistance = 120;
+            //Calculate position in the radar
+            //TODO
+//            deltaX = (-0.05)*10000;
+//            deltaY = (0)*10000;
+            //TODO
 
-            if(distance<minDistance)
-                distance=minDistance;
+            clubs[i].distance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 
-//            deltaX = 0;
-//            deltaY = 0;
+//            double minDistance = 120;
+//
+//            if(distance<minDistance)
+//                distance=minDistance;
 
+
+            //Set position in the layout
 
             //180dp middle of radar imageview
             //25dp
@@ -126,30 +141,77 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             int posy = RADAR_IMAGE_MIDDLE+ (int)deltaY -(BUBBLE_SIZE/2);
 
 
+
+            //Set bubble size
             double maxSize = 200;
-            double minSize = 30;
+            double minSize = 50;
 
             double maxRange = 300;
-            int size = (int) (maxSize - distance *(maxSize/maxRange));
+            int size = (int) (maxSize - (clubs[i].distance *(maxSize/maxRange)));
 
             if(size<minSize)
                 size = (int) minSize;
-            else
-                if(size>maxSize)
-                    size = (int) maxSize;
+            else if(size>maxSize)
+                size = (int) maxSize;
+
+
             //Create image
             ImageView bubble = new ImageView(this);
-            bubble.setImageResource(R.drawable.bubble_red);
 
-            //Locate image in radar
+           // Random r = new Random();
+
+            bubble.setImageResource(R.drawable.bubble_red);
+            if(size<60)
+                bubble.setImageResource(R.drawable.bubble_blue);
+            if(size>=60 && size <100)
+                bubble.setImageResource(R.drawable.bubble_green);
+            if(size>=100 && size <150)
+                bubble.setImageResource(R.drawable.bubble_yellow);
+
+
+//
+//            switch(r.nextInt(3))
+//            {
+//                case 0:
+//                    bubble.setImageResource(R.drawable.bubble_red);
+//
+//                    break;
+//                case 1:
+//                    bubble.setImageResource(R.drawable.bubble_yellow);
+//                    break;
+//                case 2:
+//                    bubble.setImageResource(R.drawable.bubble_blue);
+//                    break;
+//                case 3:
+//                default:
+//                    bubble.setImageResource(R.drawable.bubble_green);
+//                    break;
+//            }
+
+
+            //Add details
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             lp.setMargins(posx, posy, 0, 0);
             lp.width = size;
             lp.height = size;
             bubble.setLayoutParams(lp);
 
+            //TODO
+            clubs[i].xRadar = posx;
+            clubs[i].yRadar = posy;
 
+            //Calculate angle to center
+            double TWOPI = 6.2831853071795865;
+            double RAD2DEG = 57.2957795130823209;
 
+            // if (a1 = b1 and a2 = b2) throw an error
+            double theta = Math.atan2(posx - RADAR_IMAGE_MIDDLE, posy - RADAR_IMAGE_MIDDLE);
+            if (theta < 0.0)
+                theta += TWOPI;
+
+            double angle = RAD2DEG * theta;
+
+            clubs[i].radarAzimut = angle * TWOPI / 720;
 
             //Add to radar
             layoutRadar.addView(bubble);
@@ -168,9 +230,10 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
                 //i = new Intent(RadarActivity.this, MapsActivity.class);
                 //startActivity(i);
 
+                //TODO silent correct mediaplayer
                 //Shut up
-                if (clubs[1].mp.isPlaying())
-                    clubs[1].mp.pause();
+                if (clubs[facingClub].mp.isPlaying())
+                    clubs[facingClub].mp.pause();
 
                 finish();
 
@@ -201,6 +264,7 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
 //        tvCompass.setText("Compass="+value);
 
 
+
         //COMPASS
         if (event.sensor == mAccelerometer) {
             System.arraycopy(event.values, 0, mLastAccelerometer, 0, event.values.length);
@@ -229,42 +293,59 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
             mCurrentDegree = -azimuthInDegress;
 
            //TODO for prototype
-           // tvCompass.setText("");
-            // tvCompass.setText("Compass= "+azimuthInRadians );
+            tvCompass = (TextView) findViewById(R.id.tvCompass);
+            tvCompass.setText("");
+          //  tvCompass.setText("Compass= "+azimuthInRadians );
 
 
             //Sound
-            float distance = Math.abs(azimuthInRadians);
+            //float distance = Math.abs(azimuthInRadians);
+            int previous = facingClub;
+
+            facingClub = findClosestClubtoAzimut(azimuthInRadians);
 
 
-            //TODO find closest club
-            //TODO calculate sound volume based on the club and orientation
-            if(distance<1)
+
+
+            //Distance to the center of the radar
+            float distance = Math.abs( azimuthInRadians - (float)clubs[facingClub].radarAzimut);
+
+
+            float volume = 1-distance;
+
+
+            if(facingClub!=previous)
             {
+                //Pause previous
+                clubs[previous].mp.pause();
 
-                //layoutRadar.
-
-
-                float volume = 1-distance;
-
-                if(!clubs[1].mp.isPlaying())
-                {
-                    clubs[1].mp.start();
-
-                }
-                clubs[1].mp.setVolume(volume, volume);
-
-            }
-            else
-            {
-                if(clubs[1].mp.isPlaying())
-                    clubs[1].mp.pause();
+                //Play new
+                clubs[facingClub].mp.start();
+                clubs[facingClub].mp.setVolume(volume, volume);
             }
 
 
-            //clubs[1].mp.start();
+
+            //Set the data into the layout
+            TextView tvName = (TextView) findViewById(R.id.tvRadarName);
+            tvName.setText(clubs[facingClub].name);
+
+            TextView tvKm = (TextView) findViewById(R.id.tvKM);
+            tvKm.setText(String.format("%.0f", clubs[facingClub].distance)+"m");
+
+
+
+            AlphaAnimation alpha = new AlphaAnimation(volume, volume);
+            alpha.setDuration(0); // Make animation instant
+            alpha.setFillAfter(true); // Tell it to persist after the animation ends
+// And then on your layout
+
+            LinearLayout layoutDetails = (LinearLayout) findViewById(R.id.layoutDetails);
+            layoutDetails.startAnimation(alpha);
 
         }
+
+
 
     }
 
@@ -288,8 +369,8 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         //mSensorManager.unregisterListener(this);
 
         //TODO silent the proper object
-        if(clubs[1].mp.isPlaying())
-            clubs[1].mp.pause();
+        if(clubs[facingClub].mp.isPlaying())
+            clubs[facingClub].mp.pause();
 
         //COMPASS
         mSensorManager.unregisterListener(this, mAccelerometer);
@@ -306,10 +387,37 @@ public class RadarActivity extends AppCompatActivity implements SensorEventListe
         //Intent i = new Intent(this, compass.class);
 
         //TODO: move to the selected club
-        int clubSelected = 1;
-        i.putExtra("club_selected", clubSelected);
+
+        i.putExtra("club_selected", facingClub);
         startActivity(i);
 
+
+    }
+
+    public int findClosestClubtoAzimut(float azimuthInRadians)
+    {
+        float min = 999999;
+        float diff;
+        int closest = 0;
+
+        for(int i=0; i<clubs.length;i++)
+        {
+            diff = Math.abs( azimuthInRadians- (float)(clubs[i].radarAzimut));
+            if(diff<min)
+            {
+                min = diff;
+                closest = i;
+            }
+
+        }
+        return closest;
+    }
+
+    //Silents everything
+    public void Ssssh()
+    {
+        for(int i=0;i<clubs.length;i++)
+            clubs[i].mp.pause();
 
     }
 
